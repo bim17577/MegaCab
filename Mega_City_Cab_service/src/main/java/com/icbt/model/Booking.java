@@ -1,5 +1,7 @@
 package com.icbt.model;
 
+import java.sql.Timestamp;
+
 public class Booking {
 
     private int bookingNumber;        // Booking ID (Primary Key)
@@ -9,13 +11,16 @@ public class Booking {
     private String pickupLocation;    // Pickup location
     private String destination;       // Destination
     private double distance;          // Distance traveled
-    private String status;            // Status of the booking (e.g., Pending, Completed)
-    private String carType;           // Type of car (e.g., Sedan, SUV)
-    private String paymentMethod;     // Payment Method (e.g., Credit Card, Debit Card, Cash)
+    private String status;            // Status of the booking (Pending, Completed)
+    private String carType;           // Type of car (Sedan, SUV)
+    private String paymentMethod;     // Payment method (Credit Card, Cash, etc.)
+    private double fareAmount;        // Total fare for the trip
+    private Timestamp bookingDate;    // Timestamp for booking creation
 
-    // Constructor to initialize all fields
+    // Constructor to initialize all fields (for retrieving booking details)
     public Booking(int bookingNumber, int customerId, int carId, int driverId, String pickupLocation,
-                   String destination, double distance, String status, String carType, String paymentMethod) {
+                   String destination, double distance, String status, String carType, 
+                   String paymentMethod, double fareAmount, Timestamp bookingDate) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
         this.carId = carId;
@@ -26,11 +31,14 @@ public class Booking {
         this.status = status;
         this.carType = carType;
         this.paymentMethod = paymentMethod;
+        this.fareAmount = fareAmount;
+        this.bookingDate = bookingDate;
     }
 
-    // Constructor without bookingNumber (for booking creation without an ID)
+    // Constructor for creating a new booking (without booking number & timestamp)
     public Booking(int customerId, int carId, int driverId, String pickupLocation,
-                   String destination, double distance, String status, String carType, String paymentMethod) {
+                   String destination, double distance, String status, String carType, 
+                   String paymentMethod, double fareAmount) {
         this.customerId = customerId;
         this.carId = carId;
         this.driverId = driverId;
@@ -40,14 +48,16 @@ public class Booking {
         this.status = status;
         this.carType = carType;
         this.paymentMethod = paymentMethod;
+        this.fareAmount = fareAmount;
     }
 
-    // Constructor for listing bookings with limited details (e.g., excluding some fields)
-    public Booking(int bookingNumber, int customerId, String status, String carType) {
+    // Constructor for listing bookings with limited details
+    public Booking(int bookingNumber, int customerId, String status, String carType, double fareAmount) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
         this.status = status;
         this.carType = carType;
+        this.fareAmount = fareAmount;
     }
 
     // Getters and Setters
@@ -132,6 +142,19 @@ public class Booking {
         this.paymentMethod = paymentMethod;
     }
 
-  
+    public double getFareAmount() {
+        return fareAmount;
     }
 
+    public void setFareAmount(double fareAmount) {
+        this.fareAmount = fareAmount;
+    }
+
+    public Timestamp getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Timestamp bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+}

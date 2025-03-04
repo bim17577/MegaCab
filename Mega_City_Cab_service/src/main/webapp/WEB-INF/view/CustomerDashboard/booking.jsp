@@ -33,16 +33,22 @@
         <h2>Book a Ride</h2>
         
         <form action="booking?action=add" method="post">
-            <!-- Customer Name -->
+            <!-- Customer ID -->
             <div class="form-group">
-                <label for="customerName">Customer Name</label>
-                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Your Name" required>
+                <label for="customerId">Customer ID</label>
+                <input type="number" class="form-control" id="customerId" name="customerId" placeholder="Enter Customer ID" required>
             </div>
 
-            <!-- Contact Number -->
+            <!-- Car ID -->
             <div class="form-group">
-                <label for="contactNumber">Contact Number</label>
-                <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter Your Contact Number" required>
+                <label for="carId">Car ID</label>
+                <input type="number" class="form-control" id="carId" name="carId" placeholder="Enter Car ID" required>
+            </div>
+
+            <!-- Driver ID -->
+            <div class="form-group">
+                <label for="driverId">Driver ID</label>
+                <input type="number" class="form-control" id="driverId" name="driverId" placeholder="Enter Driver ID" required>
             </div>
 
             <!-- Pickup Location -->
@@ -57,15 +63,29 @@
                 <input type="text" class="form-control" id="destination" name="destination" placeholder="Enter Destination" required>
             </div>
 
-            <!-- Select Car Type -->
+            <!-- Distance -->
+            <div class="form-group">
+                <label for="distance">Distance (in km)</label>
+                <input type="number" class="form-control" id="distance" name="distance" step="0.01" placeholder="Enter Distance" required>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+                <label for="status">Booking Status</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <!-- Car Type -->
             <div class="form-group">
                 <label for="carType">Car Type</label>
                 <select class="form-control" id="carType" name="carType" required>
-                    <option value="">Select Car Type</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="suv">SUV</option>
-                    <option value="hatchback">Hatchback</option>
-                    <option value="minivan">Minivan</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Minivan">Minivan</option>
                 </select>
             </div>
 
@@ -73,11 +93,22 @@
             <div class="form-group">
                 <label for="paymentMethod">Payment Method</label>
                 <select class="form-control" id="paymentMethod" name="paymentMethod" required>
-                    <option value="">Select Payment Method</option>
-                    <option value="creditCard">Credit Card</option>
-                    <option value="debitCard">Debit Card</option>
-                    <option value="cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Cash">Cash</option>
                 </select>
+            </div>
+
+            <!-- Fare Amount -->
+            <div class="form-group">
+                <label for="fareAmount">Fare Amount</label>
+                <input type="number" class="form-control" id="fareAmount" name="fareAmount" step="0.01" placeholder="Enter Fare Amount" required>
+            </div>
+
+            <!-- Booking Date -->
+            <div class="form-group">
+                <label for="bookingDate">Booking Date</label>
+                <input type="datetime-local" class="form-control" id="bookingDate" name="bookingDate" required>
             </div>
 
             <!-- Submit Button -->

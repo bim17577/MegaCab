@@ -93,6 +93,29 @@
             background-color: #f1f1f1;
         }
 
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            table th, table td {
+                padding: 8px;
+            }
+
+            .buttons button {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -100,6 +123,7 @@
         <h2>Booking Details</h2>
 
         <!-- Display Booking Information -->
+        <h3>Booking Information</h3>
         <table class="booking-details-table">
             <tr>
                 <th>Booking Number:</th>
@@ -169,6 +193,7 @@
             </tr>
         </table>
 
+        <!-- Button to go back to booking list -->
         <div class="buttons">
             <button onclick="window.location.href='bookinglist.jsp'">Back to Booking List</button>
         </div>
