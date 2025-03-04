@@ -16,6 +16,10 @@ public class Booking {
     private String paymentMethod;    
      
     private Timestamp bookingDate;    
+    public Booking() {
+        // Default constructor
+    }
+
 
     // Constructor to initialize all fields (for retrieving booking details)
     public Booking(int bookingNumber, int customerId, int carId, int driverId, String pickupLocation,
@@ -115,8 +119,12 @@ public class Booking {
     }
 
     public void setDistance(double distance) {
+        if (distance < 0) {
+            throw new IllegalArgumentException("Distance cannot be negative.");
+        }
         this.distance = distance;
     }
+
 
     public String getStatus() {
         return status;

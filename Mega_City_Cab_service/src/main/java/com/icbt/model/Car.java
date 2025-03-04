@@ -9,6 +9,9 @@ public class Car {
     public Car() {}
 
     public Car(int carId, String carModel, String carType, double farePerKm) {
+        if (farePerKm < 0) {
+            throw new IllegalArgumentException("Fare per km cannot be negative.");
+        }
         this.carId = carId;
         this.carModel = carModel;
         this.carType = carType;
@@ -44,6 +47,9 @@ public class Car {
     }
 
     public void setFarePerKm(double farePerKm) {
+        if (farePerKm < 0) {
+            throw new IllegalArgumentException("Fare per km cannot be negative.");
+        }
         this.farePerKm = farePerKm;
     }
 }

@@ -11,9 +11,11 @@ public class Customer {
     private String username;
     private String password;
 
-   
- // Constructor with all fields
+    // Constructor with all fields
     public Customer(int customerId, String name, String email, String address, int phonenumber, String nic, String username, String password) {
+        if (phonenumber < 0) {
+            throw new IllegalArgumentException("Phone number cannot be negative.");
+        }
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -26,6 +28,9 @@ public class Customer {
 
     // Constructor without customerId (for registration)
     public Customer(String name, String email, String address, String nic, int phonenumber, String username, String password) {
+        if (phonenumber < 0) {
+            throw new IllegalArgumentException("Phone number cannot be negative.");
+        }
         this.name = name;
         this.email = email;
         this.address = address;
@@ -45,7 +50,7 @@ public class Customer {
 
     public Customer() {
     }
-    
+
     // Getters and Setters
     public int getCustomerId() {
         return customerId;
@@ -84,6 +89,9 @@ public class Customer {
     }
 
     public void setPhonenumber(int phonenumber) {
+        if (phonenumber < 0) {
+            throw new IllegalArgumentException("Phone number cannot be negative.");
+        }
         this.phonenumber = phonenumber;
     }
 
