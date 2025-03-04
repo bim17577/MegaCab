@@ -10,7 +10,7 @@ public class BookingDAO {
 
     // Add a new booking to the database
     public void addBooking(Booking booking) throws SQLException {
-        String query = "INSERT INTO Booking (customer_id, car_id, driver_id, pickup_location, destination, distance, status, carType, paymentMethod, fareAmount, bookingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Booking (customer_id, car_id, driver_id, pickup_location, destination, distance, status, carType, paymentMethod, bookingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -23,8 +23,8 @@ public class BookingDAO {
             statement.setString(7, booking.getStatus());
             statement.setString(8, booking.getCarType());
             statement.setString(9, booking.getPaymentMethod());
-            statement.setDouble(10, booking.getFareAmount());
-            statement.setTimestamp(11, booking.getBookingDate());
+           
+            statement.setTimestamp(10, booking.getBookingDate());
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows > 0) {
@@ -61,10 +61,10 @@ public class BookingDAO {
                 String status = resultSet.getString("status");
                 String carType = resultSet.getString("carType");
                 String paymentMethod = resultSet.getString("paymentMethod");
-                double fareAmount = resultSet.getDouble("fareAmount");
+               
                 Timestamp bookingDate = resultSet.getTimestamp("bookingDate");
 
-                bookings.add(new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod, fareAmount, bookingDate));
+                bookings.add(new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod, bookingDate));
             }
         }
         return bookings;
@@ -94,7 +94,7 @@ public class BookingDAO {
                             resultSet.getString("status"),
                             resultSet.getString("carType"),
                             resultSet.getString("paymentMethod"),
-                            resultSet.getDouble("fareAmount"),
+                          
                             resultSet.getTimestamp("bookingDate")
                     );
                 }
@@ -109,7 +109,7 @@ public class BookingDAO {
             throw new IllegalArgumentException("Invalid Booking Number format!");
         }
 
-        String query = "UPDATE Booking SET customer_id = ?, car_id = ?, driver_id = ?, pickup_location = ?, destination = ?, distance = ?, status = ?, carType = ?, paymentMethod = ?, fareAmount = ?, bookingDate = ? WHERE booking_number = ?";
+        String query = "UPDATE Booking SET customer_id = ?, car_id = ?, driver_id = ?, pickup_location = ?, destination = ?, distance = ?, status = ?, carType = ?, paymentMethod = ?, bookingDate = ? WHERE booking_number = ?";
         try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -122,9 +122,9 @@ public class BookingDAO {
             statement.setString(7, booking.getStatus());
             statement.setString(8, booking.getCarType());
             statement.setString(9, booking.getPaymentMethod());
-            statement.setDouble(10, booking.getFareAmount());
-            statement.setTimestamp(11, booking.getBookingDate());
-            statement.setInt(12, booking.getBookingNumber());
+          
+            statement.setTimestamp(10, booking.getBookingDate());
+            statement.setInt(11, booking.getBookingNumber());
 
             return statement.executeUpdate() > 0;
         }

@@ -14,13 +14,13 @@ public class Booking {
     private String status;          
     private String carType;           
     private String paymentMethod;    
-    private double fareAmount;       
+     
     private Timestamp bookingDate;    
 
     // Constructor to initialize all fields (for retrieving booking details)
     public Booking(int bookingNumber, int customerId, int carId, int driverId, String pickupLocation,
                    String destination, double distance, String status, String carType, 
-                   String paymentMethod, double fareAmount, Timestamp bookingDate) {
+                   String paymentMethod, Timestamp bookingDate) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
         this.carId = carId;
@@ -31,14 +31,14 @@ public class Booking {
         this.status = status;
         this.carType = carType;
         this.paymentMethod = paymentMethod;
-        this.fareAmount = fareAmount;
+      
         this.bookingDate = bookingDate;
     }
 
     // Constructor for creating a new booking (without booking number & timestamp)
     public Booking(int customerId, int carId, int driverId, String pickupLocation,
                    String destination, double distance, String status, String carType, 
-                   String paymentMethod, double fareAmount) {
+                   String paymentMethod) {
         this.customerId = customerId;
         this.carId = carId;
         this.driverId = driverId;
@@ -48,16 +48,16 @@ public class Booking {
         this.status = status;
         this.carType = carType;
         this.paymentMethod = paymentMethod;
-        this.fareAmount = fareAmount;
+
     }
 
     // Constructor for listing bookings with limited details
-    public Booking(int bookingNumber, int customerId, String status, String carType, double fareAmount) {
+    public Booking(int bookingNumber, int customerId, String status, String carType) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
         this.status = status;
         this.carType = carType;
-        this.fareAmount = fareAmount;
+       
     }
 
     // Getters and Setters
@@ -142,14 +142,7 @@ public class Booking {
         this.paymentMethod = paymentMethod;
     }
 
-    public double getFareAmount() {
-        return fareAmount;
-    }
-
-    public void setFareAmount(double fareAmount) {
-        this.fareAmount = fareAmount;
-    }
-
+  
     public Timestamp getBookingDate() {
         return bookingDate;
     }

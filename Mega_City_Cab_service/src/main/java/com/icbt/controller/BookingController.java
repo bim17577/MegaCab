@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/booking")
+
 public class BookingController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private BookingService bookingService;
@@ -122,9 +122,9 @@ public class BookingController extends HttpServlet {
             String status = request.getParameter("status");
             String carType = request.getParameter("carType");
             String paymentMethod = request.getParameter("paymentMethod");
-            double fareAmount = Double.parseDouble(request.getParameter("fareAmount"));
+          
 
-            Booking booking = new Booking(customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod, fareAmount);
+            Booking booking = new Booking(customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod);
             bookingService.addBooking(booking);
 
             response.sendRedirect("booking?action=list");
@@ -154,14 +154,14 @@ public class BookingController extends HttpServlet {
             String status = request.getParameter("status");
             String carType = request.getParameter("carType");
             String paymentMethod = request.getParameter("paymentMethod");
-            double fareAmount = Double.parseDouble(request.getParameter("fareAmount"));
+         
 
             // Create a Timestamp for the booking date (current time)
             Timestamp bookingDate = new Timestamp(System.currentTimeMillis());
 
             // Create a new Booking object with the updated details
             Booking booking = new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, 
-                                          destination, distance, status, carType, paymentMethod, fareAmount, bookingDate);
+                                          destination, distance, status, carType, paymentMethod, bookingDate);
 
             // Update the booking using the booking service
             bookingService.updateBooking(booking);

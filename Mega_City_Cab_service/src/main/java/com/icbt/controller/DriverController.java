@@ -133,7 +133,7 @@ public class DriverController extends HttpServlet {
             driverService.addDriver(driver);
 
             // Redirect to the driver list after adding the driver
-            response.sendRedirect("driver?action=list");
+            response.sendRedirect("booking?action=add");
         } catch (NumberFormatException | SQLException e) {
             request.setAttribute("errorMessage", "Error: " + e.getMessage());
             showAddForm(request, response);

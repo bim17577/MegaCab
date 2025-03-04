@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,22 +34,22 @@
         <h2>Book a Ride</h2>
         
         <form action="booking?action=add" method="post">
-            <!-- Customer ID -->
+            <!-- Customer ID (Automatically filled) -->
             <div class="form-group">
                 <label for="customerId">Customer ID</label>
-                <input type="number" class="form-control" id="customerId" name="customerId" placeholder="Enter Customer ID" required>
+                <input type="number" class="form-control" id="customerId" name="customerId" value="${customerId}" placeholder="Enter Customer ID" required readonly>
             </div>
 
-            <!-- Car ID -->
+            <!-- Car ID (Automatically filled based on available cars) -->
             <div class="form-group">
                 <label for="carId">Car ID</label>
-                <input type="number" class="form-control" id="carId" name="carId" placeholder="Enter Car ID" required>
+                <input type="number" class="form-control" id="carId" name="carId" value="${carId}" placeholder="Enter Car ID" required readonly>
             </div>
 
-            <!-- Driver ID -->
+            <!-- Driver ID (Automatically filled based on selection or logic) -->
             <div class="form-group">
                 <label for="driverId">Driver ID</label>
-                <input type="number" class="form-control" id="driverId" name="driverId" placeholder="Enter Driver ID" required>
+                <input type="number" class="form-control" id="driverId" name="driverId" value="${driverId}" placeholder="Enter Driver ID" required readonly>
             </div>
 
             <!-- Pickup Location -->
@@ -78,15 +79,10 @@
                 </select>
             </div>
 
-            <!-- Car Type -->
+            <!-- Car Type (Automatically filled based on selected car) -->
             <div class="form-group">
                 <label for="carType">Car Type</label>
-                <select class="form-control" id="carType" name="carType" required>
-                    <option value="Sedan">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Hatchback">Hatchback</option>
-                    <option value="Minivan">Minivan</option>
-                </select>
+                <input type="text" class="form-control" id="carType" name="carType" value="${carType}" readonly required>
             </div>
 
             <!-- Payment Method -->
@@ -97,12 +93,6 @@
                     <option value="Debit Card">Debit Card</option>
                     <option value="Cash">Cash</option>
                 </select>
-            </div>
-
-            <!-- Fare Amount -->
-            <div class="form-group">
-                <label for="fareAmount">Fare Amount</label>
-                <input type="number" class="form-control" id="fareAmount" name="fareAmount" step="0.01" placeholder="Enter Fare Amount" required>
             </div>
 
             <!-- Booking Date -->
