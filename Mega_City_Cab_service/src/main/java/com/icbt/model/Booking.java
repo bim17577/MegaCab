@@ -4,18 +4,18 @@ import java.sql.Timestamp;
 
 public class Booking {
 
-    private int bookingNumber;        // Booking ID (Primary Key)
-    private int customerId;           // Customer ID (Foreign Key)
-    private int carId;                // Car ID (Foreign Key)
-    private int driverId;             // Driver ID (Foreign Key)
-    private String pickupLocation;    // Pickup location
-    private String destination;       // Destination
-    private double distance;          // Distance traveled
-    private String status;            // Status of the booking (Pending, Completed)
-    private String carType;           // Type of car (Sedan, SUV)
-    private String paymentMethod;     // Payment method (Credit Card, Cash, etc.)
-    private double fareAmount;        // Total fare for the trip
-    private Timestamp bookingDate;    // Timestamp for booking creation
+    private int bookingNumber;        
+    private int customerId;           
+    private int carId;                
+    private int driverId;            
+    private String pickupLocation;    
+    private String destination;       
+    private double distance;         
+    private String status;          
+    private String carType;           
+    private String paymentMethod;    
+    private double fareAmount;       
+    private Timestamp bookingDate;    
 
     // Constructor to initialize all fields (for retrieving booking details)
     public Booking(int bookingNumber, int customerId, int carId, int driverId, String pickupLocation,
