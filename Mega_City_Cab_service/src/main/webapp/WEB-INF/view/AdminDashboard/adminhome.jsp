@@ -89,6 +89,7 @@
                 <li class="nav-item"><a class="nav-link" href="CarController?action=list">Manage Car Details</a></li>
                 <li class="nav-item"><a class="nav-link" href="booking?action=list">Manage Bookings</a></li>
                 <li class="nav-item"><a class="nav-link" href="driver?action=list">Manage Drivers</a></li>
+                         <li class="nav-item"><a class="nav-link" href="bill?action=add">Customer Bill</a></li>
             </ul>
         </div>
     </nav>
@@ -158,7 +159,7 @@
         </c:if>
 
         <!-- Logout Button -->
-        <a href="admin?action=logout" class="btn-logout">Logout</a>
+        <a href="customer?action=login" class="btn-logout">Logout</a>
     </div>
 
 </body>

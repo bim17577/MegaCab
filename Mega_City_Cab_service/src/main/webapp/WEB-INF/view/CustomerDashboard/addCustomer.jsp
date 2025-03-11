@@ -10,7 +10,8 @@
     <style>
         /* Body and page background */
         body {
-            background-color: #f4f7fc;
+             background: url('images/19.webp') center/cover no-repeat;
+           
             height: 100vh;
             margin: 0;
             font-family: 'Arial', sans-serif;

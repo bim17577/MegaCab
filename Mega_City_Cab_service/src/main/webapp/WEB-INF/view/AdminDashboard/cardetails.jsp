@@ -98,6 +98,8 @@
                     <td>${car.carType}</td>
                     <td>${car.farePerKm}</td>
                     <td>
+                    
+                      <a href="CarController?action=edit&carId=${car.carId}" class="btn btn-info">View</a>
                   <a href="CarController?action=edit&carId=${car.carId}">Edit</a>
                         <a href="CarController?action=delete&carId=${car.carId}" onclick="return confirm('Are you sure?')">Delete</a>
                     </td>

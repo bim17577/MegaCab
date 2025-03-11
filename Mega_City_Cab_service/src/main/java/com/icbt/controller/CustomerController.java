@@ -147,6 +147,15 @@ public class CustomerController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("savedUsername", username);
             session.setAttribute("savedPassword", password);
+            
+            // Get the customerId after customer creation
+            int customerId = customer.getCustomerId();
+            
+            // Store customerId in session to use later
+            session.setAttribute("customerId", customerId);
+
+            // Log the customerId stored in session
+            System.out.println("Stored customerId in session: " + session.getAttribute("customerId"));
 
             // Redirect to login page after successful registration
             response.sendRedirect("customer?action=login");
@@ -155,6 +164,7 @@ public class CustomerController extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
         }
     }
+
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {

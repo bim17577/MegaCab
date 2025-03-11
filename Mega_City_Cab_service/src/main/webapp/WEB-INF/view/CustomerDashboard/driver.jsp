@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: url('images/8.jpg') center/cover no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
@@ -29,7 +29,7 @@
         h2 {
             text-align: center;
             color: #333;
-            font-size: 28px;
+         font-size: 3.5em;
             margin-bottom: 30px;
         }
 

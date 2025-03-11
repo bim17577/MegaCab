@@ -12,7 +12,7 @@ public class Booking {
     private String destination;       
     private double distance;         
     private String status;          
-    private String carType;           
+            
     private String paymentMethod;    
      
     private Timestamp bookingDate;    
@@ -23,7 +23,7 @@ public class Booking {
 
     // Constructor to initialize all fields (for retrieving booking details)
     public Booking(int bookingNumber, int customerId, int carId, int driverId, String pickupLocation,
-                   String destination, double distance, String status, String carType, 
+                   String destination, double distance, String status, 
                    String paymentMethod, Timestamp bookingDate) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
@@ -33,7 +33,7 @@ public class Booking {
         this.destination = destination;
         this.distance = distance;
         this.status = status;
-        this.carType = carType;
+       
         this.paymentMethod = paymentMethod;
       
         this.bookingDate = bookingDate;
@@ -41,7 +41,7 @@ public class Booking {
 
     // Constructor for creating a new booking (without booking number & timestamp)
     public Booking(int customerId, int carId, int driverId, String pickupLocation,
-                   String destination, double distance, String status, String carType, 
+                   String destination, double distance, String status,  
                    String paymentMethod) {
         this.customerId = customerId;
         this.carId = carId;
@@ -50,17 +50,17 @@ public class Booking {
         this.destination = destination;
         this.distance = distance;
         this.status = status;
-        this.carType = carType;
+      
         this.paymentMethod = paymentMethod;
 
     }
 
     // Constructor for listing bookings with limited details
-    public Booking(int bookingNumber, int customerId, String status, String carType) {
+    public Booking(int bookingNumber, int customerId, String status) {
         this.bookingNumber = bookingNumber;
         this.customerId = customerId;
         this.status = status;
-        this.carType = carType;
+     
        
     }
 
@@ -134,13 +134,8 @@ public class Booking {
         this.status = status;
     }
 
-    public String getCarType() {
-        return carType;
-    }
-
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
+   
+   
 
     public String getPaymentMethod() {
         return paymentMethod;

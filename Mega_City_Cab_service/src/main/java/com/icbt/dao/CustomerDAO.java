@@ -7,39 +7,70 @@ import com.icbt.model.Customer;
 
 public class CustomerDAO {
 
-    public void addCustomer(Customer customer) {
-        String query = "INSERT INTO Customer (name, email, address, phone_number, nic, username, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+	
+	
+	private void closeResources(ResultSet rs, PreparedStatement stmt, Connection conn) {
+	    try {
+	        if (rs != null) {
+	            rs.close();
+	        }
+	        if (stmt != null) {
+	            stmt.close();
+	        }
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getAddress());
-            statement.setInt(4, customer.getPhonenumber());
-            statement.setString(5, customer.getNic());
-            statement.setString(6, customer.getUsername());
-            statement.setString(7, customer.getPassword());
-            statement.executeUpdate();
+	public void addCustomer(Customer customer) {
+	    String query = "INSERT INTO Customer (name, email, address, phone_number, nic, username, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    ResultSet generatedKeys = null;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    private void closeResources(ResultSet rs, PreparedStatement stmt, Connection conn) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	    try {
+	        // Get connection from DBConnection
+	        connection = DBConnection.getInstance().getConnection();
+
+	        // Prepare statement with query and return generated keys
+	        statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+
+	        // Set the parameters for the prepared statement
+	        statement.setString(1, customer.getName());
+	        statement.setString(2, customer.getEmail());
+	        statement.setString(3, customer.getAddress());
+	        statement.setInt(4, customer.getPhonenumber());  // Assuming phone number is stored as an int
+	        statement.setString(5, customer.getNic());
+	        statement.setString(6, customer.getUsername());
+	        statement.setString(7, customer.getPassword());
+
+	        // Execute the insert statement
+	        int affectedRows = statement.executeUpdate();
+
+	        // If rows were affected, retrieve the generated customer_id
+	        if (affectedRows > 0) {
+	            generatedKeys = statement.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                // Retrieve the generated customer_id
+	                int generatedCustomerId = generatedKeys.getInt(1);
+
+	                // Set the generated customer_id in the customer object
+	                customer.setCustomerId(generatedCustomerId);
+	                System.out.println("Generated Customer ID: " + customer.getCustomerId());
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close the resources
+	        closeResources(generatedKeys, statement, connection);
+	    }
+	}
+
+
 
     public List<Customer> getAllCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<>();

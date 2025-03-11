@@ -11,9 +11,9 @@ public class BookingTest {
         // Creating a timestamp for booking date
         Timestamp bookingDate = new Timestamp(System.currentTimeMillis());
 
-        // Creating a Booking object with all attributes
+        // Creating a Booking object with all attributes (without car_type)
         Booking booking = new Booking(101, 1, 5, 10, "New York", "Los Angeles", 
-                                      450.5, "Confirmed", "SUV", "Credit Card", bookingDate);
+                                      450.5, "Confirmed", "Credit Card", bookingDate);
 
         // Verifying that the booking object was created with the expected values
         assertEquals(101, booking.getBookingNumber());
@@ -24,7 +24,6 @@ public class BookingTest {
         assertEquals("Los Angeles", booking.getDestination());
         assertEquals(450.5, booking.getDistance());
         assertEquals("Confirmed", booking.getStatus());
-        assertEquals("SUV", booking.getCarType());
         assertEquals("Credit Card", booking.getPaymentMethod());
         assertEquals(bookingDate, booking.getBookingDate());
     }
@@ -32,7 +31,7 @@ public class BookingTest {
     @Test
     public void testSettersAndGetters() {
         // Creating an empty Booking object
-        Booking booking = new Booking(1, 5, 10, "Chicago", "Miami", 300.0, "Pending", "Sedan", "Cash");
+        Booking booking = new Booking(1, 5, 10, "Chicago", "Miami", 300.0, "Pending", "Cash");
 
         // Setting values using setters
         booking.setBookingNumber(202);
@@ -49,7 +48,7 @@ public class BookingTest {
     public void testInvalidDistance() {
         // Creating a Booking object with the constructor that takes parameters
         Timestamp bookingDate = new Timestamp(System.currentTimeMillis());
-        Booking booking = new Booking(1, 2, 3, 4, "Location", "Destination", 100.0, "Pending", "Sedan", "Cash", bookingDate);
+        Booking booking = new Booking(1, 2, 3, 4, "Location", "Destination", 100.0, "Pending", "Cash", bookingDate);
 
         // Ensuring the exception is thrown when setting a negative distance
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -63,12 +62,13 @@ public class BookingTest {
     @Test
     public void testBookingWithLimitedDetails() {
         // Creating a Booking object with limited details
-        Booking booking = new Booking(303, 2, "Cancelled", "Luxury");
+    	Booking booking = new Booking(303, 2, "Cancelled");
+    	booking.setCarId(1); // Set the car ID, if needed
+
 
         // Verifying the values
         assertEquals(303, booking.getBookingNumber());
         assertEquals(2, booking.getCustomerId());
         assertEquals("Cancelled", booking.getStatus());
-        assertEquals("Luxury", booking.getCarType());
     }
 }

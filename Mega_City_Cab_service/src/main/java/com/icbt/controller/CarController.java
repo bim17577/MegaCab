@@ -112,14 +112,6 @@ public class CarController extends HttpServlet {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
 
     // Add a new car
     private void addCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

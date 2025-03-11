@@ -77,10 +77,55 @@
             color: white;
             margin-top: 30px;
         }
+
+        /* Top Bar Styling */
+        .top-bar {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+        }
+        .top-bar .sign-out-exit {
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+        .top-bar .sign-out-exit:hover {
+            color: #ff5722;
+            transform: scale(1.1);
+        }
+        .top-bar .sign-out-exit + span {
+            color: white;
+            margin: 0 10px;
+        }
+
+        /* Styling for the images to be uniform */
+        .feature-box img {
+            width: 100%;
+            height: 250px; /* You can adjust the height as needed */
+            object-fit: cover; /* Ensure images cover the area uniformly */
+            border-radius: 8px;
+        }
+
+        /* Optional: Add hover effect on images for more interactivity */
+        .feature-box img:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Top Bar with Sign Out and Exit Links (Right-Aligned) -->
+    <div class="top-bar d-flex justify-content-between align-items-center">
+        <div class="ms-auto">
+            <a href="customer?action=logout" class="sign-out-exit">Sign Out</a>
+            <span>|</span>
+            <a href="index.jsp" class="sign-out-exit">Exit</a>
+        </div>
+    </div>
+   
     <!-- Hero Section -->
     <div class="hero">
         <h1>Fast, Reliable & Affordable Cab Service in Colombo</h1>
@@ -88,86 +133,71 @@
         <a href="CarController?action=add" class="btn-book">Book a Ride Now</a>
     </div>
 
-    <!-- Why Choose Us Section -->
-    <div class="container">
-        <h2 class="section-title">Why Choose Mega City Cab?</h2>
+    <h2 class="section-title">Featured Cars</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="feature-box">
+                <img src="images/4.jpg" alt="Car 1">
+                <h4>Sedan</h4>
+                <p>Perfect for business trips and special events.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <img src="images/5.jpg" alt="Car 2">
+                <h4> SUV</h4>
+                <p>Ideal for family trips or group outings.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <img src="images/6.webp" alt="Car 3">
+                <h4>Hatchback</h4>
+                <p>Affordable and efficient for quick city trips.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-box">
+                <img src="images/6.jpg" alt="Car 4">
+                <h4>Minivan</h4>
+                <p>Affordable and efficient for quick city trips.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Plans Section -->
+    <div class="container my-5">
+        <h2 class="section-title">Affordable Pricing Plans</h2>
         <div class="row">
             <div class="col-md-4">
                 <div class="feature-box">
-                    <h3>🚖 Reliable Rides</h3>
-                    <p>Available 24/7 with well-maintained cabs and experienced drivers.</p>
+                    <h3>Basic Plan</h3>
+                    <p>For short city rides. Transparent pricing, no hidden charges.</p>
+                    <p><strong>$10</strong> per ride</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="feature-box">
-                    <h3>💰 Affordable Prices</h3>
-                    <p>Transparent pricing with no hidden charges.</p>
+                    <h3>Standard Plan</h3>
+                    <p>For regular travel around Colombo, with a discount on multiple rides.</p>
+                    <p><strong>$20</strong> for 3 rides</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="feature-box">
-                    <h3>📍 Easy Booking</h3>
-                    <p>Book online or via our mobile-friendly website.</p>
+                    <h3>Premium Plan</h3>
+                    <p>Best for business and events. VIP treatment with top-class services.</p>
+                    <p><strong>$50</strong> for unlimited rides in a day</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- How It Works Section -->
-    <div class="container">
-        <h2 class="section-title">How It Works?</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="feature-box">
-                    <h3>1️⃣ Sign Up</h3>
-                    <p>Create an account or log in to get started.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="feature-box">
-                    <h3>2️⃣ Enter Ride Details</h3>
-                    <p>Provide your pickup location and destination.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="feature-box">
-                    <h3>3️⃣ Get a Cab</h3>
-                    <p>Choose your preferred cab and confirm booking.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="feature-box">
-                    <h3>4️⃣ Enjoy Your Ride</h3>
-                    <p>Sit back, relax, and reach your destination safely.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials Section -->
-    <div class="container">
-        <h2 class="section-title">What Our Customers Say</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="testimonial">
-                    <p>"Mega City Cab is my go-to service for traveling in Colombo. Always on time!"</p>
-                    <h5>- Ruwan, Colombo</h5>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="testimonial">
-                    <p>"Affordable, clean cabs, and friendly drivers. Highly recommended!"</p>
-                    <h5>- Anjali, Dehiwala</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Booking Call to Action -->
-    <div class="container text-center">
-        <h2>Ready to Ride?</h2>
-        <p>Book your cab now and travel hassle-free.</p>
-        <a href="booking.jsp" class="btn-book">Book a Ride</a>
+    <!-- Contact Us Section -->
+    <div class="container text-center my-5">
+        <h2 class="section-title">Get In Touch</h2>
+        <p>If you have any questions or need assistance, feel free to contact us!</p>
+        <a href="contact.jsp" class="btn-book">Contact Us</a>
     </div>
 
     <!-- Footer -->

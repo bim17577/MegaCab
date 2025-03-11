@@ -1,7 +1,9 @@
 package com.icbt.controller;
+import javax.servlet.http.HttpSession;
 
 import com.icbt.service.CarService;
 import com.icbt.service.DriverService;
+import com.icbt.model.Car;
 import com.icbt.model.Driver;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -118,6 +120,20 @@ public class DriverController extends HttpServlet {
         String licenseNumber = request.getParameter("license_number");
         String carIdStr = request.getParameter("car_id");
 
+        // Get customerId from session
+        HttpSession session = request.getSession();
+        Integer customerId = (Integer) session.getAttribute("customerId");
+
+        // Log the customer ID to check if it's correctly set
+        System.out.println("Customer ID in session: " + customerId);
+
+        if (customerId == null) {
+            // If customerId is null, that means the session has expired or customer is not logged in
+            request.setAttribute("errorMessage", "Customer ID is missing. Please log in first.");
+            showAddForm(request, response);  // This could be a method to show the form again or redirect to login
+            return;
+        }
+
         // Validate inputs
         if (driverName == null || driverName.trim().isEmpty() || carIdStr == null || carIdStr.trim().isEmpty()) {
             request.setAttribute("error", "Driver Name and Car ID are required!");
@@ -128,17 +144,24 @@ public class DriverController extends HttpServlet {
         try {
             int carId = Integer.parseInt(carIdStr);
 
-            // Create a new Driver object and add it to the database
-            Driver driver = new Driver(driverName, phoneNumber, licenseNumber, carId);
-            driverService.addDriver(driver);
+            // Create a new driver object
+            Driver newDriver = new Driver(0, driverName, phoneNumber, licenseNumber, carId);
+            driverService.addDriver(newDriver); // Add the driver without customerId
 
-            // Redirect to the driver list after adding the driver
-            response.sendRedirect("booking?action=add");
+            int driverId = newDriver.getDriverId();
+
+            // Redirect with carId, driverId, and customerId
+            response.sendRedirect("booking?action=add&carId=" + carId + "&driverId=" + driverId + "&customerId=" + customerId);
+
+
         } catch (NumberFormatException | SQLException e) {
             request.setAttribute("errorMessage", "Error: " + e.getMessage());
             showAddForm(request, response);
         }
     }
+
+
+
 
     // Update an existing driver
     private void updateDriver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

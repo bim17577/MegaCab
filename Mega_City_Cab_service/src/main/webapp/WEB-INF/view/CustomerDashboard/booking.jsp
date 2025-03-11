@@ -10,6 +10,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+          background: url('images/7.jpg') center/cover no-repeat;
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
@@ -34,23 +35,43 @@
         <h2>Book a Ride</h2>
         
         <form action="booking?action=add" method="post">
-            <!-- Customer ID (Automatically filled) -->
-            <div class="form-group">
-                <label for="customerId">Customer ID</label>
-                <input type="number" class="form-control" id="customerId" name="customerId" value="${customerId}" placeholder="Enter Customer ID" required readonly>
-            </div>
+    <!-- Retrieve customerId from session or request parameter -->
+    <%
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            String customerIdParam = request.getParameter("customerId");
+            if (customerIdParam != null) {
+                try {
+                    customerId = Integer.parseInt(customerIdParam);
+                    session.setAttribute("customerId", customerId); // Store it again in the session
+                } catch (NumberFormatException e) {
+                    customerId = null;
+                }
+            }
+        }
+    %>
 
-            <!-- Car ID (Automatically filled based on available cars) -->
-            <div class="form-group">
-                <label for="carId">Car ID</label>
-                <input type="number" class="form-control" id="carId" name="carId" value="${carId}" placeholder="Enter Car ID" required readonly>
-            </div>
+    <!-- Customer ID (Retrieve from session) -->
+<div class="form-group">
+    <label for="customerId">Customer ID</label>
+    <input type="text" class="form-control" id="customer_id" name="customer_id" 
+           value="<%= (customerId != null) ? customerId : "" %>" readonly>
+</div>
 
-            <!-- Driver ID (Automatically filled based on selection or logic) -->
-            <div class="form-group">
-                <label for="driverId">Driver ID</label>
-                <input type="number" class="form-control" id="driverId" name="driverId" value="${driverId}" placeholder="Enter Driver ID" required readonly>
-            </div>
+<!-- Car ID -->
+<div class="form-group">
+    <label for="carId">Car ID</label>
+    <input type="text" class="form-control" id="carId" name="carId" 
+           value="<%= request.getParameter("carId") != null ? request.getParameter("carId") : "" %>" readonly>
+</div>
+
+<!-- Driver ID -->
+<div class="form-group">
+    <label for="driverId">Driver ID</label>
+    <input type="text" class="form-control" id="driverId" name="driverId" 
+           value="<%= request.getParameter("driverId") != null ? request.getParameter("driverId") : "" %>" readonly>
+</div>
+
 
             <!-- Pickup Location -->
             <div class="form-group">
@@ -79,11 +100,7 @@
                 </select>
             </div>
 
-            <!-- Car Type (Automatically filled based on selected car) -->
-            <div class="form-group">
-                <label for="carType">Car Type</label>
-                <input type="text" class="form-control" id="carType" name="carType" value="${carType}" readonly required>
-            </div>
+         
 
             <!-- Payment Method -->
             <div class="form-group">

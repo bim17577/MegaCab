@@ -9,37 +9,42 @@ import java.util.List;
 public class BookingDAO {
 
     // Add a new booking to the database
-    public void addBooking(Booking booking) throws SQLException {
-        String query = "INSERT INTO Booking (customer_id, car_id, driver_id, pickup_location, destination, distance, status, carType, paymentMethod, bookingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+	public void addBooking(Booking booking) throws SQLException {
+	    // Check if bookingDate is null, assign current timestamp if so
+	    if (booking.getBookingDate() == null) {
+	        booking.setBookingDate(new Timestamp(System.currentTimeMillis())); // Set current time if null
+	    }
 
-            statement.setInt(1, booking.getCustomerId());
-            statement.setInt(2, booking.getCarId());
-            statement.setInt(3, booking.getDriverId());
-            statement.setString(4, booking.getPickupLocation());
-            statement.setString(5, booking.getDestination());
-            statement.setDouble(6, booking.getDistance());
-            statement.setString(7, booking.getStatus());
-            statement.setString(8, booking.getCarType());
-            statement.setString(9, booking.getPaymentMethod());
-           
-            statement.setTimestamp(10, booking.getBookingDate());
+	    String query = "INSERT INTO Booking (customer_id, car_id, driver_id, pickup_location, destination, distance, status, payment_method, booking_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows > 0) {
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    booking.setBookingNumber(generatedKeys.getInt(1));  // Set the generated booking number
-                }
-            } else {
-                throw new SQLException("Booking insertion failed, no rows affected.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error inserting booking into database: " + e.getMessage());
-        }
-    }
+	    try (Connection connection = DBConnection.getInstance().getConnection();
+	         PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+	        statement.setInt(1, booking.getCustomerId());
+	        statement.setInt(2, booking.getCarId());
+	        statement.setInt(3, booking.getDriverId());
+	        statement.setString(4, booking.getPickupLocation());
+	        statement.setString(5, booking.getDestination());
+	        statement.setDouble(6, booking.getDistance());
+	        statement.setString(7, booking.getStatus());
+	        statement.setString(8, booking.getPaymentMethod());
+	        statement.setTimestamp(9, booking.getBookingDate()); // Correct index for bookingDate
+
+	        int affectedRows = statement.executeUpdate();
+	        if (affectedRows > 0) {
+	            ResultSet generatedKeys = statement.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                booking.setBookingNumber(generatedKeys.getInt(1)); // Set the generated booking number
+	            }
+	        } else {
+	            throw new SQLException("Booking insertion failed, no rows affected.");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new SQLException("Error inserting booking into database: " + e.getMessage());
+	    }
+	}
+
 
     // Get all bookings from the database
     public List<Booking> getAllBookings() throws SQLException {
@@ -59,12 +64,10 @@ public class BookingDAO {
                 String destination = resultSet.getString("destination");
                 double distance = resultSet.getDouble("distance");
                 String status = resultSet.getString("status");
-                String carType = resultSet.getString("carType");
-                String paymentMethod = resultSet.getString("paymentMethod");
-               
-                Timestamp bookingDate = resultSet.getTimestamp("bookingDate");
+                String paymentMethod = resultSet.getString("payment_method");  // Corrected column name
+                Timestamp bookingDate = resultSet.getTimestamp("booking_date");  // Correct column name
 
-                bookings.add(new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod, bookingDate));
+                bookings.add(new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, destination, distance, status, paymentMethod, bookingDate));
             }
         }
         return bookings;
@@ -92,10 +95,8 @@ public class BookingDAO {
                             resultSet.getString("destination"),
                             resultSet.getDouble("distance"),
                             resultSet.getString("status"),
-                            resultSet.getString("carType"),
-                            resultSet.getString("paymentMethod"),
-                          
-                            resultSet.getTimestamp("bookingDate")
+                            resultSet.getString("payment_method"),  // Corrected column name
+                            resultSet.getTimestamp("booking_date")  // Correct column name
                     );
                 }
             }
@@ -109,7 +110,7 @@ public class BookingDAO {
             throw new IllegalArgumentException("Invalid Booking Number format!");
         }
 
-        String query = "UPDATE Booking SET customer_id = ?, car_id = ?, driver_id = ?, pickup_location = ?, destination = ?, distance = ?, status = ?, carType = ?, paymentMethod = ?, bookingDate = ? WHERE booking_number = ?";
+        String query = "UPDATE Booking SET customer_id = ?, car_id = ?, driver_id = ?, pickup_location = ?, destination = ?, distance = ?, status = ?, payment_method = ?, booking_date = ? WHERE booking_number = ?";
         try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -120,11 +121,9 @@ public class BookingDAO {
             statement.setString(5, booking.getDestination());
             statement.setDouble(6, booking.getDistance());
             statement.setString(7, booking.getStatus());
-            statement.setString(8, booking.getCarType());
-            statement.setString(9, booking.getPaymentMethod());
-          
-            statement.setTimestamp(10, booking.getBookingDate());
-            statement.setInt(11, booking.getBookingNumber());
+            statement.setString(8, booking.getPaymentMethod());  // Corrected column name
+            statement.setTimestamp(9, booking.getBookingDate());
+            statement.setInt(10, booking.getBookingNumber());
 
             return statement.executeUpdate() > 0;
         }

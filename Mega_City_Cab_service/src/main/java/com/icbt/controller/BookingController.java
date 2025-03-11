@@ -1,4 +1,5 @@
 package com.icbt.controller;
+import javax.servlet.http.HttpSession;
 
 import com.icbt.model.Booking;
 import com.icbt.service.BookingService;
@@ -12,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.Timestamp;
+import com.icbt.model.Bill;
+import com.icbt.dao.BillDAO;
 
 
 public class BookingController extends HttpServlet {
@@ -111,28 +117,105 @@ public class BookingController extends HttpServlet {
     }
 
     // Add a new booking
-    private void addBooking(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void addBooking(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         try {
-            int customerId = Integer.parseInt(request.getParameter("customerId"));
-            int carId = Integer.parseInt(request.getParameter("carId"));
-            int driverId = Integer.parseInt(request.getParameter("driverId"));
+            HttpSession session = request.getSession();
+            Integer customerId = (Integer) session.getAttribute("customerId");
+
+            if (customerId == null) {
+                request.setAttribute("errorMessage", "Customer is not logged in.");
+                request.getRequestDispatcher("WEB-INF/view/CustomerDashboard/LoginPage.jsp").forward(request, response);
+                return;
+            }
+
+            String carIdParam = request.getParameter("carId");
+            String driverIdParam = request.getParameter("driverId");
             String pickupLocation = request.getParameter("pickupLocation");
             String destination = request.getParameter("destination");
-            double distance = Double.parseDouble(request.getParameter("distance"));
+            String distanceParam = request.getParameter("distance");
             String status = request.getParameter("status");
-            String carType = request.getParameter("carType");
             String paymentMethod = request.getParameter("paymentMethod");
-          
 
-            Booking booking = new Booking(customerId, carId, driverId, pickupLocation, destination, distance, status, carType, paymentMethod);
+            if (pickupLocation == null || pickupLocation.trim().isEmpty() || 
+                destination == null || destination.trim().isEmpty()) {
+                request.setAttribute("errorMessage", "Pickup Location and Destination are required!");
+                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/bookingdetails.jsp").forward(request, response);
+                return;
+            }
+
+            if (carIdParam == null || driverIdParam == null || 
+                carIdParam.trim().isEmpty() || driverIdParam.trim().isEmpty()) {
+                request.setAttribute("errorMessage", "Car ID and Driver ID are required.");
+                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/bookingdetails.jsp").forward(request, response);
+                return;
+            }
+
+            int carId = Integer.parseInt(carIdParam);
+            int driverId = Integer.parseInt(driverIdParam);
+            double distance = Double.parseDouble(distanceParam);
+
+            // Create the booking object
+            Booking booking = new Booking(customerId, carId, driverId, pickupLocation, destination, distance, status, paymentMethod);
             bookingService.addBooking(booking);
 
-            response.sendRedirect("booking?action=list");
-        } catch (NumberFormatException | SQLException e) {
-            request.setAttribute("errorMessage", "Error: " + e.getMessage());
-            showAddForm(request, response);
+            // Calculate the total fare, tax, discount, and final amount
+            double totalFare = calculateTotalFare(booking);
+            double taxAmount = calculateTax(totalFare);
+            double discount = calculateDiscount(totalFare);
+            double finalAmount = totalFare + taxAmount - discount;
+
+            // Create and set the bill object
+            Bill bill = new Bill();
+            bill.setBookingNumber(booking.getBookingNumber());
+            bill.setCustomerId(booking.getCustomerId());
+            bill.setTotalFare(totalFare);
+            bill.setTaxAmount(taxAmount);
+            bill.setDiscount(discount);
+            bill.setFinalAmount(finalAmount);
+            bill.setPaymentStatus("Pending");
+            bill.setPaymentMethod(booking.getPaymentMethod());
+            bill.setBillingDate(new Timestamp(System.currentTimeMillis()));
+
+            // Add the bill to the database
+            BillDAO billDAO = new BillDAO();
+            billDAO.addBill(bill);
+
+            // Store the bill in session so it can be accessed later
+            session.setAttribute("latestBill", bill);
+
+            // Show success message
+            response.setContentType("text/html");
+            response.getWriter().println("<script>alert('Booking Successful!');</script>");
+            request.getRequestDispatcher("/WEB-INF/view/CustomerDashboard/payment.jsp").forward(request, response);
+
+            // Forward to Admin Dashboard (or appropriate page)
+          
+
+        } catch (SQLException e) {
+            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.getRequestDispatcher("WEB-INF/view/AdminDashboard/bookingdetails.jsp").forward(request, response);
         }
     }
+
+
+
+
+    private double calculateTotalFare(Booking booking) {
+        // Logic to calculate total fare based on the booking details
+        return booking.getDistance() * 10; // Example calculation, replace with actual logic
+    }
+
+    private double calculateTax(double totalFare) {
+        // Example tax calculation
+        return totalFare * 0.10; // 10% tax
+    }
+
+    private double calculateDiscount(double totalFare) {
+        // Example discount calculation
+        return totalFare * 0.05; // 5% discount
+    }
+
 
  // Update an existing booking
     private void updateBooking(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -152,7 +235,7 @@ public class BookingController extends HttpServlet {
             String destination = request.getParameter("destination");
             double distance = Double.parseDouble(request.getParameter("distance"));
             String status = request.getParameter("status");
-            String carType = request.getParameter("carType");
+        
             String paymentMethod = request.getParameter("paymentMethod");
          
 
@@ -161,7 +244,7 @@ public class BookingController extends HttpServlet {
 
             // Create a new Booking object with the updated details
             Booking booking = new Booking(bookingNumber, customerId, carId, driverId, pickupLocation, 
-                                          destination, distance, status, carType, paymentMethod, bookingDate);
+                                          destination, distance, status, paymentMethod, bookingDate);
 
             // Update the booking using the booking service
             bookingService.updateBooking(booking);

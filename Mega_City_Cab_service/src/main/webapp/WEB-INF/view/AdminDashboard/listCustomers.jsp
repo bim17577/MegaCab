@@ -106,6 +106,10 @@
                         <td>${customer.username}</td>
                         <td>${customer.password}</td>
                         <td>
+                          <a href="customer?action=delete&customerId=${customer.customerId}" class="btn btn-info">View</a>
+
+                                <!-- Edit button -->
+                           
                             <a href="customer?action=delete&customerId=${customer.customerId}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
                         </td>
                     </tr>

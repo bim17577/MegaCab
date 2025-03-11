@@ -51,5 +51,15 @@
         <servlet-name>BookingController</servlet-name>
         <url-pattern>/booking</url-pattern>
     </servlet-mapping>
+    
+     <!-- BookingControllerServlet -->
+    <servlet>
+        <servlet-name>BillController</servlet-name>
+        <servlet-class>com.icbt.controller.BillController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BillController</servlet-name>
+        <url-pattern>/bill</url-pattern>
+    </servlet-mapping>
 
 </web-app>

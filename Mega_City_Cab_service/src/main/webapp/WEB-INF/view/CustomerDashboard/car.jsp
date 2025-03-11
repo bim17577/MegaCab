@@ -11,17 +11,18 @@
             box-sizing: border-box;
         }
         body {
-            background: linear-gradient(45deg, #6db3f2, #1e78c1);
+            background: url('images/3.jpg') center/cover no-repeat;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             padding: 20px;
+            
         }
         h2 {
-            color: white;
-            font-size: 2.5em;
+            color: black;
+            font-size: 3.5em;
             text-align: center;
             margin-bottom: 30px;
             font-weight: 600;
