@@ -12,17 +12,17 @@ public class BookingTest {
         Timestamp bookingDate = new Timestamp(System.currentTimeMillis());
 
         // Creating a Booking object with all attributes (without car_type)
-        Booking booking = new Booking(101, 1, 5, 10, "New York", "Los Angeles", 
-                                      450.5, "Confirmed", "Credit Card", bookingDate);
+        Booking booking = new Booking(101, 1, 5, 10, "Colombo", "Kandy", 
+                                      90, "Confirmed", "Credit Card", bookingDate);
 
         // Verifying that the booking object was created with the expected values
         assertEquals(101, booking.getBookingNumber());
         assertEquals(1, booking.getCustomerId());
         assertEquals(5, booking.getCarId());
         assertEquals(10, booking.getDriverId());
-        assertEquals("New York", booking.getPickupLocation());
-        assertEquals("Los Angeles", booking.getDestination());
-        assertEquals(450.5, booking.getDistance());
+        assertEquals("Colombo", booking.getPickupLocation());
+        assertEquals("Kandy", booking.getDestination());
+        assertEquals(90, booking.getDistance());
         assertEquals("Confirmed", booking.getStatus());
         assertEquals("Credit Card", booking.getPaymentMethod());
         assertEquals(bookingDate, booking.getBookingDate());
@@ -31,7 +31,7 @@ public class BookingTest {
     @Test
     public void testSettersAndGetters() {
         // Creating an empty Booking object
-        Booking booking = new Booking(1, 5, 10, "Chicago", "Miami", 300.0, "Pending", "Cash");
+        Booking booking = new Booking(1, 5, 10, "Jaffna", "Kandy", 300.0, "Pending", "Cash");
 
         // Setting values using setters
         booking.setBookingNumber(202);
