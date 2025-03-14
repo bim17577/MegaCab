@@ -2,6 +2,7 @@ package com.icbt.controller;
 import javax.servlet.http.HttpSession;
 
 import com.icbt.model.Booking;
+import com.icbt.model.Car;
 import com.icbt.service.BookingService;
 import java.sql.Timestamp;
 
@@ -107,7 +108,7 @@ public class BookingController extends HttpServlet {
             Booking booking = bookingService.getBookingByBookingNumber(bookingNumber);
             if (booking != null) {
                 request.setAttribute("booking", booking);
-                request.getRequestDispatcher("/WEB-INF/view/CustomerDashboard/booking.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/view/AdminDashboard/editBooking.jsp").forward(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Booking not found!");
             }
@@ -283,7 +284,7 @@ public class BookingController extends HttpServlet {
             Booking booking = bookingService.getBookingByBookingNumber(bookingNumber);
             if (booking != null) {
                 request.setAttribute("booking", booking);
-                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/bookingdetails.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/viewBooking.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "Booking not found.");
                 request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
@@ -294,3 +295,4 @@ public class BookingController extends HttpServlet {
         }
     }
 }
+

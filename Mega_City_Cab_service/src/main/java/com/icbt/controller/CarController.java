@@ -2,6 +2,7 @@ package com.icbt.controller;
 import javax.servlet.RequestDispatcher;
 
 import com.icbt.model.Car;
+import com.icbt.model.Customer;
 import com.icbt.service.CarService;
 
 import javax.servlet.ServletException;
@@ -41,6 +42,8 @@ public class CarController extends HttpServlet {
                     case "delete":
                         deleteCar(request, response);
                         break;
+                    case "view":
+                        viewCar(request, response);
                     default:
                         listCars(request, response);
                         break;
@@ -59,8 +62,8 @@ public class CarController extends HttpServlet {
         try {
             if ("add".equals(action)) {
                 addCar(request, response);
-            } else if ("update".equals(action)) {
-                updateCar(request, response);
+            } else if ("edit".equals(action)) {
+                editCar(request, response);
             } else {
                 listCars(request, response);
             }
@@ -102,7 +105,7 @@ public class CarController extends HttpServlet {
             Car car = carService.getCarById(carId);
             if (car != null) {
                 request.setAttribute("car", car);
-                request.getRequestDispatcher("/WEB-INF/view/CustomerDashboard/car.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/view/AdminDashboard/editCar.jsp").forward(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Car not found!");
             }
@@ -149,25 +152,36 @@ public class CarController extends HttpServlet {
     }
 
 
+    private void viewCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int carId = Integer.parseInt(request.getParameter("carId"));
+            Car car = carService.getCarById(carId);
+
+            if (car != null) {
+                request.setAttribute("car", car);  // Ensure customer object is set as a request attribute
+                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/viewCar.jsp").forward(request, response);  // Forward to the correct JSP
+            } else {
+                request.setAttribute("errorMessage", "Car not found.");
+                request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid car ID format.");
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+        } catch (SQLException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+        }
+    }
+    
+    
+    
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-    // Update an existing car
-    private void updateCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void editCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String carIdStr = request.getParameter("carId");
 
         if (carIdStr == null || carIdStr.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Car ID is required for update!");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Car ID is required for editing!");
             return;
         }
 
@@ -177,18 +191,28 @@ public class CarController extends HttpServlet {
             String carType = request.getParameter("carType");
             double farePerKm = Double.parseDouble(request.getParameter("farePerKm"));
 
-            Car car = new Car(carId, carModel, carType, farePerKm);
-            carService.updateCar(car);
+            // Create a new Car object with updated details
+            Car updatedCar = new Car(carId, carModel, carType, farePerKm);
+            
+            // Call the service to update the car details
+            carService.updateCar(updatedCar);
 
-            response.sendRedirect("CarController");
+            // Redirect back to the car list page
+            response.sendRedirect("CarController?action=list");
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Car ID format!");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Car ID or Fare format!");
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Database error: " + e.getMessage());
             request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
         }
     }
+
+    
+    
+    
+    
+
 
     // Delete a car
     private void deleteCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

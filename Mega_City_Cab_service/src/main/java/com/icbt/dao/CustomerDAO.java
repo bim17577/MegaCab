@@ -105,7 +105,68 @@ public class CustomerDAO {
             statement.executeUpdate();
         }
     }
+    public Customer getCustomerById(int customerId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        try {
+            conn = DBConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM Customer WHERE customer_id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, customerId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                int phoneNumber = rs.getInt("phone_number");
+                String nic = rs.getString("nic");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+
+                return new Customer(customerId, name, email, address, phoneNumber, nic, username, password);
+            }
+        } finally {
+            closeResources(rs, stmt, conn);
+        }
+        return null;
+    }
+
+    
+    
+    public boolean updateCustomer(Customer customer) throws SQLException {
+        if (customer.getCustomerId() <= 0) {
+            throw new IllegalArgumentException("Invalid Customer ID format!");
+        }
+
+        String query = "UPDATE Customer SET name = ?, email = ?, address = ?, phone_number = ?, nic = ? WHERE customer_id = ?";
+        
+        try (Connection connection = DBConnection.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getEmail());
+            statement.setString(3, customer.getAddress());
+          
+            statement.setInt(4, customer.getPhonenumber()); 
+
+          
+            statement.setString(5, customer.getNic());
+            statement.setInt(6, customer.getCustomerId()); // The customer_id to update
+
+            // Execute the update statement and return true if the update was successful
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+
+
+
+   
+
+    
     public Customer getCustomerByUsernameAndPassword(String username, String password) {
         Connection conn = null;
         PreparedStatement stmt = null;

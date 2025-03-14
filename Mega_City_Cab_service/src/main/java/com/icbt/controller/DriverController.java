@@ -3,6 +3,7 @@ import javax.servlet.http.HttpSession;
 
 import com.icbt.service.CarService;
 import com.icbt.service.DriverService;
+import com.icbt.model.Booking;
 import com.icbt.model.Car;
 import com.icbt.model.Driver;
 import javax.servlet.RequestDispatcher;
@@ -42,6 +43,9 @@ public class DriverController extends HttpServlet {
                     case "delete":
                         deleteDriver(request, response);
                         break;
+                    case "view":
+                        viewDriver(request, response);
+                        break;
                     default:
                         listDrivers(request, response);
                         break;
@@ -58,10 +62,8 @@ public class DriverController extends HttpServlet {
 
         try {
             if ("add".equals(action)) {
-                // Add a new driver
                 addDriver(request, response);
             } else if ("update".equals(action)) {
-                // Update the driver details
                 updateDriver(request, response);
             } else {
                 // If no valid action, list drivers
@@ -104,7 +106,7 @@ public class DriverController extends HttpServlet {
             Driver driver = driverService.getDriverById(driverId);
             if (driver != null) {
                 request.setAttribute("driver", driver);
-                request.getRequestDispatcher("/WEB-INF/view/CustomerDashboard/driver.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/view/AdminDashboard/editDriver.jsp").forward(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Driver not found!");
             }
@@ -112,6 +114,14 @@ public class DriverController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Driver ID format!");
         }
     }
+    
+    
+    
+    
+    
+    
+    
+   
 
     // Add a new driver
     private void addDriver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -190,6 +200,26 @@ public class DriverController extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
         }
     }
+    
+    
+  
+    private void viewDriver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int driverId = Integer.parseInt(request.getParameter("driverId"));
+            Driver driver = driverService.getDriverById(driverId);
+            if (driver != null) {
+                request.setAttribute("driver", driver);
+                request.getRequestDispatcher("WEB-INF/view/AdminDashboard/viewDriver.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Driver not found.");
+                request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException | SQLException e) {
+            request.setAttribute("errorMessage", "Error: " + e.getMessage());
+            request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+        }
+    }
+
 
     // Delete a driver
     private void deleteDriver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

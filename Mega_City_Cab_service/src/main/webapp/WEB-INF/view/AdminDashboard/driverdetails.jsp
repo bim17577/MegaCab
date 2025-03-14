@@ -109,9 +109,12 @@
                 <td>${driver.licenseNumber}</td>
                 <td>${driver.carId}</td>
                 <td>
-                			   <a href="driver?action=view&driverId=${driver.driverId}" class="btn btn-info">View</a>
-                            <a href="driver?action=edit&driverId=${driver.driverId}" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="driver?action=delete&driverId=${driver.driverId}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Delete</a>
+                            
+                            
+                             <a href="driver?action=view&driverId=${driver.driverId}" class="btn btn-info">View</a>
+                  <a href="driver?action=edit&driverId=${driver.driverId}" class="btn btn-warning">Edit</a>
+                   
+                          <a href="driver?action=delete&driverId=${driver.driverId}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this driver?')">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>

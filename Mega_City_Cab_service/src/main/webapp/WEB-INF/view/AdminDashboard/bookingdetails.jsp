@@ -119,14 +119,12 @@
                             <td>${booking.paymentMethod}</td>
                                <td>${booking.bookingDate}</td>
                             <td>
-                                <!-- View button -->
-                                <a href="booking?action=view&bookingNumber=${booking.bookingNumber}" class="btn btn-info">View</a>
-
-                                <!-- Edit button -->
-                                <a href="booking?action=edit&bookingNumber=${booking.bookingNumber}" class="btn btn-warning">Edit</a>
-
-                                <!-- Delete button -->
-                                <a href="booking?action=delete&bookingNumber=${booking.bookingNumber}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                              
+                                
+                      <a href="booking?action=view&bookingNumber=${booking.bookingNumber}" class="btn btn-info">View</a>
+                  <a href="booking?action=edit&bookingNumber=${booking.bookingNumber}"class="btn btn-warning">Edit</a>
+                   
+                          <a href="booking?action=delete&bookingNumber=${booking.bookingNumber}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>

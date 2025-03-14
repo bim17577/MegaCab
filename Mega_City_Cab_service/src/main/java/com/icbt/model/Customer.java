@@ -48,6 +48,19 @@ public class Customer {
         this.password = password;
     }
 
+ // Constructor with customerId, name, email, address, phoneNumber, and nic
+    public Customer(int customerId, String name, String email, String address, int phoneNumber, String nic) {
+        if (phoneNumber < 0) {
+            throw new IllegalArgumentException("Phone number cannot be negative.");
+        }
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phonenumber = phonenumber;
+        this.nic = nic;
+    }
+
     public Customer() {
     }
 

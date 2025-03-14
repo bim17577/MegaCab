@@ -25,6 +25,9 @@ public class CustomerService {
         }
         return instance;
     }
+    public Customer getCustomerById(int customerId) throws SQLException {
+        return customerDAO.getCustomerById(customerId);
+    }
 
     // Method to add a customer
     public void addCustomer(Customer customer) {
@@ -45,4 +48,9 @@ public class CustomerService {
     public Customer getCustomerByUsernameAndPassword(String username, String password) {
         return customerDAO.getCustomerByUsernameAndPassword(username, password);
     }
+
+// Add this updateCustomer method
+public void updateCustomer(Customer customer) throws SQLException {
+    customerDAO.updateCustomer(customer);  // Delegate the actual update to the DAO class
+}
 }

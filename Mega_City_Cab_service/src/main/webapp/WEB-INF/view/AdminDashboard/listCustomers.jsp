@@ -86,8 +86,9 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
+                     <th>Address</th>
                     <th>Phone</th>
-                    <th>Address</th>
+                 
                     <th>NIC</th>
                     <th>Username</th>
                     <th>Password</th>
@@ -100,13 +101,15 @@
                         <td>${customer.customerId}</td>
                         <td>${customer.name}</td>
                         <td>${customer.email}</td>
+                         <td>${customer.address}</td>
                         <td>${customer.phonenumber}</td>
-                        <td>${customer.address}</td>
+                      
                         <td>${customer.nic}</td>
                         <td>${customer.username}</td>
                         <td>${customer.password}</td>
                         <td>
-                          <a href="customer?action=delete&customerId=${customer.customerId}" class="btn btn-info">View</a>
+                         <a href="customer?action=view&customerId=${customer.customerId}" class="btn btn-info">View</a>
+                         <a href="customer?action=edit&customerId=${customer.customerId}" class="btn btn-info">Edit</a>
 
                                 <!-- Edit button -->
                            

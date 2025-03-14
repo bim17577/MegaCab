@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-   background: url('images/19.webp') center/cover no-repeat;
-           
+            background: url('images/19.webp') center/cover no-repeat;
             height: 100vh;
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -69,24 +65,18 @@
         a:hover {
             text-decoration: underline;
         }
-
-        /* Gradient Animation for background */
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Error Message (if any) at the top of the page -->
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger mt-4">
+                ${errorMessage}
+            </div>
+        </c:if>
+
         <h2>Login</h2>
 
         <!-- Login Form -->
@@ -114,13 +104,6 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
         </form>
-
-        <!-- Error Message (if any) -->
-        <c:if test="${not empty errorMessage}">
-            <div class="alert alert-danger mt-4">
-                ${errorMessage}
-            </div>
-        </c:if>
 
         <!-- Redirect to Registration Page -->
         <p class="mt-4">Don't have an account? <a href="customer?action=add">Register Here</a></p>
